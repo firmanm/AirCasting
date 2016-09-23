@@ -13,6 +13,8 @@ module Elastic
       Sidekiq.logger.info("[Stream, id: #{stream_id}, operation: #{operation}]")
 
       stream = Stream.find(stream_id)
+      return if stream.session.type == "FixedSession"
+
       index_name = "#{stream.measurement_type.parameterize.underscore}_#{stream.sensor_name.parameterize.underscore}"
 
       case operation

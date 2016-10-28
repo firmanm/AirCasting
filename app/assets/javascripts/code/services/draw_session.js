@@ -52,12 +52,20 @@ angular.module('aircasting').factory('drawSession',
           } else {
             sensor_name = 'streaming_sensor';
           }
-          var value = Math.round(session.last_hour_averages[sensor_name]);
 
-          level = heat.getLevel(value || 0);
+          var value = Math.round(session.last_hour_averages[sensor_name]);
+          console.log("av value: " + value)
+
+          if (value == 0) {
+            level = 0;
+          } else {
+            level = heat.getLevel(value || 0);
+          }
         } else {
           level = 0;
         };
+
+        console.log("level: " + level)
 
         var markerOptions = {
           title: session.title,
@@ -68,6 +76,7 @@ angular.module('aircasting').factory('drawSession',
       }
       session.drawed = true;
       map.appendViewport(bounds);
+      return session.markers;
     },
 
     undoDraw: function(session, bounds, noMove) {

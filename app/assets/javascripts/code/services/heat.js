@@ -17,6 +17,7 @@ angular.module("aircasting").factory('heat', ["$rootScope", "params", "storage",
         return;
       }
       var value = newValue;
+      console.log("val: " + value)
       var scale =  value.highest - value.lowest;
       var percentageHeat = {
         highest: Math.round((1.0 * (value.highest - value.high) / scale) * 100),
@@ -27,6 +28,7 @@ angular.module("aircasting").factory('heat', ["$rootScope", "params", "storage",
       _(["highest", "high", "mid", "low"]).each(function(heat){
         self.heatPercentage[heat] = {width: percentageHeat[heat] + "%"};
       });
+      console.log("percentage: " + percentageHeat)
     }, true);
   };
 
@@ -76,15 +78,16 @@ angular.module("aircasting").factory('heat', ["$rootScope", "params", "storage",
       });
     },
     getLevel: function(value){
+      console.log(this.getValues());
       if (value < this.getValue("lowest")) {
         return null;
-      } else if (value <= this.getValue("mid")) {
+      } else if (value <= this.getValue("low")) {
         return 1;
-      } else if (value <= this.getValue("high")) {
+      } else if (value <= this.getValue("mid")) {
         return 2;
-      } else if (value <= this.getValue("highest")) {
+      } else if (value <= this.getValue("high")) {
         return 3;
-      } else if (value > this.getValue("highest")) {
+      } else if (value > this.getValue("high")) {
         return 4;
       } else {
         return null;

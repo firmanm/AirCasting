@@ -48,7 +48,8 @@ angular.module('aircasting').factory('drawSession',
         icon: "/assets/location_marker.png"
       }));
       session.drawed = true;
-      map.appendViewport(bounds);
+      if (!session.is_indoor) map.appendViewport(bounds);
+      
       return session.markers;
     },
 

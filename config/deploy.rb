@@ -29,9 +29,11 @@ set :copy_exclude, [ ".git" ]
 set :use_sudo, false
 set :stages, %w(staging production)
 set :default_stage, "staging"
-set :rvm_ruby_string, "2.0.0"
+set :rvm_ruby_string, "2.0.0-p647"
 set :rvm_type, :system
 set :ssh_options, { :forward_agent => true }
+
+before 'deploy', 'rvm:install_ruby'
 
 before "deploy:assets:precompile" do
   run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"

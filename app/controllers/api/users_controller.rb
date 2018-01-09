@@ -35,5 +35,16 @@ module Api
         render :json => user.errors, :status => 422
       end
     end
+
+    def save_gcm_token
+      token = params[:token]
+      current_user.gcm_token =  token
+
+      if current_user.save
+        render :nothing => true, :status => :ok
+      else
+        render :nothing => true, :status => :bad_request
+      end
+    end
   end
 end

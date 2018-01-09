@@ -51,12 +51,13 @@ AirCasting::Application.routes.draw do
     end
 
     get 'multiple_sessions' =>'measurement_sessions#show_multiple'
+    post 'save_gcm_token' => 'users#save_gcm_token'
 
     resources :averages, only: [:index]
     resources :thresholds, only: [:show], id: /.*/
     resources :regressions, only: [:create, :index, :destroy]
     resource :region, only: [:show]
-    resource  :user, only: [:show, :create] do
+    resource :user, only: [:show, :create] do
       resources :sessions, only: [:show], controller: "user_sessions" do
         collection do
           post :sync

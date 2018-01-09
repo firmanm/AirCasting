@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20161103124035) do
+ActiveRecord::Schema.define(:version => 20180109093158) do
 
   create_table "deleted_sessions", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20161103124035) do
     t.string   "username"
     t.boolean  "send_emails"
     t.boolean  "admin",                                 :default => false
+    t.string   "gcm_token"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

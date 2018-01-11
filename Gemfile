@@ -15,6 +15,7 @@ gem 'sidekiq-unique-jobs', '3.0.12'
 gem 'colored', require: false
 gem 'progress', require: false
 gem 'pry-rails'
+gem 'gcm'
 
 gem 'rb-gsl', '1.16.0.6'
 

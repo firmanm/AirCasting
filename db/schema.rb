@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20180109093158) do
+ActiveRecord::Schema.define(:version => 20180110145852) do
 
   create_table "deleted_sessions", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -99,11 +99,12 @@ ActiveRecord::Schema.define(:version => 20180109093158) do
     t.integer  "timezone_offset"
     t.datetime "start_time_local"
     t.datetime "end_time_local"
-    t.string   "type",                                               :null => false
+    t.string   "type",                                                                      :null => false
     t.boolean  "is_indoor"
-    t.decimal  "latitude",            :precision => 12, :scale => 9
-    t.decimal  "longitude",           :precision => 12, :scale => 9
+    t.decimal  "latitude",                    :precision => 12, :scale => 9
+    t.decimal  "longitude",                   :precision => 12, :scale => 9
     t.datetime "last_measurement_at"
+    t.integer  "measurements_received_count",                                :default => 0
   end
 
   add_index "sessions", ["contribute"], :name => "index_sessions_on_contribute"

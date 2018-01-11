@@ -17,6 +17,8 @@
 # You can contact the authors by email at <info@habitatmap.org>
 
 class FixedSession < Session
+  STREAMS_IN_SESSION = 16
+
   validates :is_indoor, inclusion: { in: [true, false] }
   validates :latitude, :longitude, presence: true
 
@@ -39,13 +41,9 @@ class FixedSession < Session
   end
 
   def after_measurements_created
-    update_end_time!
-  end
-
-  def update_end_time!
-    self.end_time = self.measurements.maximum('time')
-    self.end_time_local = self.measurements.maximum('time')
-    self.last_measurement_at = DateTime.current
+    update_measurements_received_count
+    notify_gcm
+    update_end_time
     self.save!
   end
 
@@ -71,5 +69,24 @@ class FixedSession < Session
     methods << :type
 
     res = super(opts.merge(methods: methods))
+  end
+ 
+  private
+
+  def update_measurements_received_count
+    self.increment(:measurements_received_count, 1)
+  end
+
+  def notify_gcm
+    return unless measurements_received_count >= STREAMS_IN_SESSION
+
+    GcmNotifier.new(self.user.gcm_token, self.id).call
+    self.measurements_received_count = 0
+  end
+
+  def update_end_time
+    self.end_time = self.measurements.maximum('time')
+    self.end_time_local = self.measurements.maximum('time')
+    self.last_measurement_at = DateTime.current
   end
 end

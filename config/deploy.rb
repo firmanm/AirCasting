@@ -38,6 +38,7 @@ before "deploy:assets:precompile" do
   run "ln -nfs #{shared_path}/config/unicorn.rb #{release_path}/config/unicorn.rb"
   run "ln -nfs #{shared_path}/newrelic.yml #{release_path}/config/newrelic.yml"
   run "ln -nfs #{shared_path}/config/honeybadger.yml #{release_path}/config/honeybadger.yml"
+  run "ln -nfs #{shared_path}/config/secrets.yml #{release_path}/config/secrets.yml"
   run "ln -nfs #{shared_path}/.rvmrc #{release_path}/.rvmrc"
 end
 

@@ -36,6 +36,7 @@ require_relative '../lib/session_builder'
 require_relative '../lib/realtime_measurement_builder'
 require_relative '../lib/aircasting/deep_symbolize'
 require_relative '../lib/aircasting/time_to_local_in_utc'
+require_relative '../lib/gcm_notifier'
 
 module AirCasting
   class Application < Rails::Application
@@ -87,5 +88,12 @@ module AirCasting
 
     # Observers
     config.active_record.observers = ['Elastic::StreamObserver']
+
+    config.before_configuration do
+      env_file = File.join(Rails.root, 'config', 'secrets.yml')
+      YAML.load(File.open(env_file)).each do |key, value|
+        ENV[key.to_s] = value
+      end if File.exists?(env_file)
+    end
   end
 end
